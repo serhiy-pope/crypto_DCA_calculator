@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TokeroDCACalculator.Views.ChartsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dxc="clr-namespace:DevExpress.Maui.Charts;assembly=DevExpress.Maui.Charts"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             Shell.NavBarIsVisible="True"
+             Shell.TabBarIsVisible="True"
+             Shell.PresentationMode="Animated"
+             Title="{Binding Title}">
+    <Grid RowDefinitions="Auto, Auto, *" >
+
+        <Label Text="Select Cryptocurrency:" 
+               FontAttributes="Bold" 
+               Margin="10,10,10,0" 
+               Grid.Row="0"/>
+        <dxe:ComboBoxEdit ItemsSource="{Binding AvailableCoins, Mode=TwoWay}" 
+                          SelectedItem="{Binding SelectedCoin}"
+                          SelectionChangedCommand="{Binding SetSelectedCoinAsyncCommand}"
+                          DropDownSelectedItemBackgroundColor="Gray" 
+                          FocusedBorderColor="{StaticResource TokeroPrimary}" 
+                          FocusedBorderThickness="1"
+                          HeightRequest="45"
+                          BoxPadding="10"
+                          Margin="10"  
+                          Grid.Row="1"/>
+                
+        <dxc:ChartView x:Name="chart"
+                       SelectionMode="None"  
+                       AxisXNavigationMode="ScrollingAndZooming"  
+                       AxisYNavigationMode="ScrollingAndZooming"
+                       ScrollIndicatorsEnabled="False"
+                       MaximumHeightRequest="700"
+                       Grid.Row="2">
+
+            <dxc:ChartView.Series>
+                <dxc:CandleStickSeries DisplayName="{Binding SelectedCoinTicker, StringFormat='{0}/USD'}">
+                    <!--Series Data-->
+                    <dxc:CandleStickSeries.Data>
+                        <dxc:SeriesDataAdapter DataSource="{Binding Candles}" ArgumentDataMember="Date">
+                            <dxc:ValueDataMember Type="High" Member="High" />
+                            <dxc:ValueDataMember Type="Low" Member="Low" />
+                            <dxc:ValueDataMember Type="Open" Member="Open" />
+                            <dxc:ValueDataMember Type="Close" Member="Close" />
+                        </dxc:SeriesDataAdapter>
+                    </dxc:CandleStickSeries.Data>
+                </dxc:CandleStickSeries>
+
+                <!--EMA 20-->
+                <dxc:MovingAverageIndicator ValueLevel="Close" 
+                                             PointsCount="20"
+                                             DisplayName="EMA 20">
+                    <dxc:MovingAverageIndicator.Data>
+                        <dxc:CalculatedSeriesDataAdapter Series="{Binding Series[0], Source={x:Reference chart}}"/>
+                    </dxc:MovingAverageIndicator.Data>
+                </dxc:MovingAverageIndicator>
+                <!--EMA 50-->
+                <dxc:MovingAverageIndicator ValueLevel="Close" 
+                                             PointsCount="50"
+                                             DisplayName="EMA 50">
+                    <dxc:MovingAverageIndicator.Data>
+                        <dxc:CalculatedSeriesDataAdapter Series="{Binding Series[0], Source={x:Reference chart}}"/>
+                    </dxc:MovingAverageIndicator.Data>
+                </dxc:MovingAverageIndicator>
+                <!--EMA 1000-->
+                <dxc:MovingAverageIndicator ValueLevel="Close" 
+                                             PointsCount="100"
+                                             DisplayName="EMA 100">
+                    <dxc:MovingAverageIndicator.Data>
+                        <dxc:CalculatedSeriesDataAdapter Series="{Binding Series[0], Source={x:Reference chart}}"/>
+                    </dxc:MovingAverageIndicator.Data>
+                </dxc:MovingAverageIndicator>
+                <!--EMA 200-->
+                <dxc:MovingAverageIndicator ValueLevel="Close" 
+                                             PointsCount="200"
+                                             DisplayName="EMA 200">
+                    <dxc:MovingAverageIndicator.Data>
+                        <dxc:CalculatedSeriesDataAdapter Series="{Binding Series[0], Source={x:Reference chart}}"/>
+                    </dxc:MovingAverageIndicator.Data>
+                </dxc:MovingAverageIndicator>
+
+            </dxc:ChartView.Series>
+            
+            <dxc:ChartView.ChartStyle>
+                <dxc:ChartStyle BackgroundColor="{Binding CandleStickSeriesBackgroundColor}"/>
+            </dxc:ChartView.ChartStyle>
+
+            <dxc:ChartView.Legend>
+                <dxc:Legend HorizontalPosition="Right"
+                            VerticalPosition="TopOutside">
+                    <dxc:Legend.Style>
+                        <dxc:LegendStyle BackgroundColor="{Binding CandleStickSeriesBackgroundColor}"
+                                                     MarkerSize="10" 
+                                                     TextIndent="5"
+                                                     ItemsHorizontalIndent="8">
+                            <dxc:LegendStyle.TextStyle>
+                                <dxc:TextStyle Color="{Binding CandleStickSeriesLabelTextColor}" 
+                                                           Size="10"/>
+                            </dxc:LegendStyle.TextStyle>
+                        </dxc:LegendStyle>
+                    </dxc:Legend.Style>
+                </dxc:Legend>
+            </dxc:ChartView.Legend>
+
+            <dxc:ChartView.Hint>
+                <dxc:Hint ShowMode= "OnLongPress">
+                    <dxc:Hint.Behavior>
+                        <dxc:CrosshairHintBehavior GroupHeaderTextPattern="{}{A}"
+                                                   ArgumentLabelVisible="True" ArgumentLineVisible="True"
+                                                   ValueLabelVisible="True" ValueLineVisible="True"
+                                                   HighlightPoint="True" />
+                    </dxc:Hint.Behavior>
+                </dxc:Hint>
+            </dxc:ChartView.Hint>
+
+            <dxc:ChartView.AxisX>
+                <dxc:DateTimeAxisX>
+                    
+                    <dxc:DateTimeAxisX.Style>
+                        <dxc:AxisStyle LineVisible="True" 
+                                                   LineThickness="0.5" 
+                                                   LineColor="{AppThemeBinding Dark={StaticResource TokeroPrimaryDark},
+                                                                               Light={StaticResource TokeroPrimary}}"/>
+                    </dxc:DateTimeAxisX.Style>
+                    
+                    <dxc:DateTimeAxisX.Label>
+                        <dxc:AxisLabel Visible="True">
+                            <dxc:AxisLabel.Style>
+                                <dxc:AxisLabelStyle>
+                                    <dxc:AxisLabelStyle.TextStyle>
+                                        <dxc:TextStyle Color="{Binding CandleStickSeriesLabelTextColor}"
+                                                       Size="10"/>
+                                    </dxc:AxisLabelStyle.TextStyle>
+                                </dxc:AxisLabelStyle>
+                            </dxc:AxisLabel.Style>
+                        </dxc:AxisLabel>
+                    </dxc:DateTimeAxisX.Label>
+                    
+                </dxc:DateTimeAxisX>
+            </dxc:ChartView.AxisX>
+
+            <dxc:ChartView.AxisY>
+                <dxc:NumericAxisY >
+
+                    <dxc:NumericAxisY.Style>
+                        <dxc:AxisStyle LineVisible="True" 
+                                       LineThickness="0.5"
+                                       MajorGridlinesVisible="True"
+                                       MajorGridlinesColor="Gray"
+                                       MinorGridLinesVisible="True"
+                                       MinorTickmarksVisible="True"
+                                       LineColor="{AppThemeBinding Dark={StaticResource TokeroPrimaryDark},
+                                                                   Light={StaticResource TokeroPrimary}}"/>
+                    </dxc:NumericAxisY.Style>
+
+                    <dxc:NumericAxisY.Label>
+                        <dxc:AxisLabel TextFormat="$" Visible="True">
+                            <dxc:AxisLabel.Style>
+                                <dxc:AxisLabelStyle>
+                                    <dxc:AxisLabelStyle.TextStyle>
+                                        <dxc:TextStyle Color="{Binding CandleStickSeriesLabelTextColor}"
+                                                       Size="10"/>
+                                    </dxc:AxisLabelStyle.TextStyle>
+                                </dxc:AxisLabelStyle>
+                            </dxc:AxisLabel.Style>
+                        </dxc:AxisLabel>
+                    </dxc:NumericAxisY.Label>
+
+                </dxc:NumericAxisY>
+            </dxc:ChartView.AxisY>
+                        
+        </dxc:ChartView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TokeroDCACalculator.Views.MultiResultsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TokeroDCACalculator.ViewModels"
+             xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
+             xmlns:dxco="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             Shell.NavBarIsVisible="True"
+             Shell.TabBarIsVisible="False"
+             Shell.PresentationMode="Animated"
+             Title="{Binding Title}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Portfolio Summary Block -->
+            <Frame Padding="10" CornerRadius="8"                               
+               BorderColor="{AppThemeBinding Light={StaticResource TokeroPrimaryDark}, 
+                                             Dark={StaticResource TokeroPrimary}}"
+               BackgroundColor="{AppThemeBinding Light={StaticResource TokeroPrimary}, 
+                                                 Dark={StaticResource TokeroPrimaryDark}}">
+                <VerticalStackLayout>
+                    <Label Text="Portfolio Summary:" 
+                           FontAttributes="Bold" 
+                           FontSize="18" 
+                           Margin="10,0,10,10"
+                           TextColor="{AppThemeBinding Light={StaticResource TextLight}, 
+                                                       Dark={StaticResource TextDark}}"/>
+                    
+                    <Grid ColumnDefinitions="*,*" 
+                          RowDefinitions="Auto, Auto, Auto, Auto" >
+                        
+                        <Label Text="Total Invested:" 
+                               TextColor="{StaticResource TextDark}"
+                               FontSize="16" 
+                               Grid.Column="0" 
+                               Grid.Row="0" />
+                        <Label Text="{Binding TotalInvested}" 
+                           TextColor="{StaticResource TextDark}"
+                           FontSize="16" 
+                           HorizontalOptions="End" 
+                           Grid.Column="1" 
+                           Grid.Row="0"/>
+
+                        <Label Text="Total Portfolio Value:"
+                               TextColor="{StaticResource TextDark}" 
+                               FontSize="16" 
+                               Grid.Column="0" 
+                               Grid.Row="1" />
+                        <Label Text="{Binding PortfolioTotalValue}" 
+                           TextColor="{StaticResource TextDark}"
+                           FontSize="16" 
+                           HorizontalOptions="End" 
+                           Grid.Column="1" 
+                           Grid.Row="1" />
+
+                        <Label Text="{Binding ProfitOrLossText, StringFormat='{0}:'}"
+                               TextColor="{StaticResource TextDark}" 
+                               FontSize="16" 
+                               Grid.Column="0" 
+                               Grid.Row="2" />
+                        <Label Text="{Binding ProfitOrLoss}" 
+                               TextColor="{Binding RoiColorForConverter, 
+                                           Converter={StaticResource RoiToColorConverter}}"
+                               FontSize="16" 
+                               HorizontalOptions="End" 
+                               Grid.Column="1"
+                               Grid.Row="2" />
+
+                        <Label Text="Total ROI:" 
+                               TextColor="{StaticResource TextDark}" 
+                               FontSize="16" 
+                               Grid.Column="0" 
+                               Grid.Row="3" />
+                        <Label Text="{Binding TotalRoi}" 
+                               TextColor="{Binding RoiColorForConverter, 
+                                           Converter={StaticResource RoiToColorConverter}}"
+                               FontSize="16" 
+                               HorizontalOptions="End" 
+                               Grid.Column="1"
+                               Grid.Row="3" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Individual Crypto Breakdown -->
+            <Frame Padding="10" CornerRadius="8"                               
+                   BorderColor="{AppThemeBinding Light={StaticResource TokeroPrimaryDark}, 
+                                                 Dark={StaticResource TokeroPrimary}}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource TokeroPrimary}, 
+                                                     Dark={StaticResource TokeroPrimaryDark}}">
+                <VerticalStackLayout>
+                    <Label Text="Individual Crypto Performance:" 
+                           FontAttributes="Bold" 
+                           FontSize="16" 
+                           Margin="10,0,10,10"
+                           TextColor="{StaticResource TextDark}"/>
+
+                    <dxco:DXCollectionView ItemsSource="{Binding IndividualCryptoBreakdown}"
+                                           HeightRequest="{Binding SelectedCryptosCount, 
+                                                           Converter={StaticResource ItemCountToHeightConverter}}"
+                                           SelectionMode="None">
+                        
+                        <dxco:DXCollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame CornerRadius="8" 
+                                       Padding="8" 
+                                       Margin="0,2,0,2" 
+                                       HasShadow="False" 
+                                       BorderColor="{AppThemeBinding Light={StaticResource Gray300}, 
+                                                                     Dark={StaticResource Gray600}}"
+                                       BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, 
+                                                                         Dark={StaticResource Gray800}}">
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" 
+                                          RowDefinitions="Auto,Auto">
+
+                                        <!-- Crypto Symbol -->
+                                        <Label Text="{Binding Symbol}" 
+                                               TextColor="{AppThemeBinding Dark={StaticResource TextDark},
+                                                                           Light={StaticResource TextLight}}"
+                                               FontAttributes="Bold"
+                                               FontSize="14" 
+                                               Grid.Column="0" 
+                                               Grid.Row="0"/>
+                                        
+                                        <!-- Crypto Amount -->
+                                        <Label Text="{Binding TotalCryptoOwned, StringFormat='{}{0:N6}'}" 
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, 
+                                                                           Dark={StaticResource Gray400}}"
+                                               FontSize="12" 
+                                               Grid.ColumnSpan="2"
+                                               Grid.Column="0" 
+                                               Grid.Row="1"/>
+
+                                        <!-- Current Value -->
+                                        <Label Text="{Binding CurrentValue, StringFormat='Value: {0}', 
+                                                              Converter={StaticResource CurrencyToEuroConverter}}" 
+                                               TextColor="{AppThemeBinding Dark={StaticResource TextDark},
+                                                                           Light={StaticResource TextLight}}"
+                                               HorizontalOptions="End"
+                                               FontSize="14" 
+                                               Grid.Column="1" 
+                                               Grid.Row="0"/>
+
+                                        <!-- ROI -->
+                                        <Label Text="{Binding ROI, StringFormat='{}ROI {0:N2}%'}" 
+                                               TextColor="{Binding ROI, Converter={StaticResource RoiToColorConverter}}"
+                                               HorizontalOptions="End"
+                                               FontSize="14" 
+                                               Grid.Column="3" 
+                                               Grid.Row="0"/>
+
+                                        <!-- Invested Amount -->
+                                        <Label Text="{Binding TotalInvested, StringFormat='Invested: {0}', 
+                                                              Converter={StaticResource CurrencyToEuroConverter}}" 
+                                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, 
+                                                                           Dark={StaticResource Gray400}}"
+                                               HorizontalOptions="End"
+                                               FontSize="12" 
+                                               Grid.ColumnSpan="2"
+                                               Grid.Column="2" 
+                                               Grid.Row="1"/>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </dxco:DXCollectionView.ItemTemplate>
+                    </dxco:DXCollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Monthly Portfolio Progress Header -->
+            <Label Text="Total Portfolio Progress (monthly):" 
+                   FontAttributes="Bold" 
+                   FontSize="18" 
+                   Margin="-25,15,15,0"
+                   HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light={StaticResource TextLight}, 
+                                               Dark={StaticResource TextDark}}"/>
+            <Frame Padding="10" CornerRadius="8" Margin="10,0,10,-10"
+                   BorderColor="{AppThemeBinding Light={StaticResource Gray300}, 
+                                                 Dark={StaticResource Gray600}}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                                     Dark={StaticResource Gray800}}">
+                <Grid ColumnDefinitions="0.7*,*,0.8*,0.5*" Padding="0,0,0,0">
+                    <Label Text="&#x0a;Date" FontAttributes="Bold" Grid.Column="0" Margin="5,0,0,0"/>
+                    <Label Text="   Total &#x0a;Invested (€)" FontAttributes="Bold" Grid.Column="1"/>
+                    <Label Text=" Portfolio &#x0a;Value  (€)" FontAttributes="Bold" Grid.Column="2"/>
+                    <Label Text="&#x0a;ROI (%)" FontAttributes="Bold" Grid.Column="3"/>
+                </Grid>
+            </Frame>
+
+            <!-- MultiDcaResults Monthly -->
+            <dxco:DXCollectionView ItemsSource="{Binding MultiDcaResultsMonthly}"
+                                   SelectionMode="None"
+                                   Margin="0"
+                                   HeightRequest="{Binding TotalMonthsCount, 
+                                                   Converter={StaticResource MonthsCountToHeightConverter}}">
+                <dxco:DXCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Spacing="5">
+                            <!-- Main row with portfolio totals -->
+                            <Frame CornerRadius="12" 
+                               Padding="10" 
+                               Margin="0,5,0,0" 
+                               HasShadow="True" 
+                               BorderColor="{AppThemeBinding Light={StaticResource TokeroPrimaryDark}, 
+                                                             Dark={StaticResource TokeroPrimary}}"
+                               BackgroundColor="{AppThemeBinding Light={StaticResource TokeroPrimary}, 
+                                                                 Dark={StaticResource TokeroPrimaryDark}}">
+                                <Grid ColumnDefinitions="1.2*,1.1*,*,0.9*">
+                                    <Label Text="{Binding Date, StringFormat='{0:yyyy.MM.dd}'}" 
+                                           FontSize="12" 
+                                           Grid.Column="0" 
+                                           HorizontalOptions="Start"
+                                           TextColor="{StaticResource TextDark}"/>
+                                    <Label Text="{Binding TotalInvested, StringFormat='{}{0:N2}'}" 
+                                           FontSize="12" 
+                                           Grid.Column="1" 
+                                           HorizontalOptions="Start"
+                                           TextColor="{StaticResource TextDark}"/>
+                                    <Label Text="{Binding TotalPortfolioValue, StringFormat='{}{0:N2}'}" 
+                                           FontSize="12" 
+                                           Grid.Column="2" 
+                                           HorizontalOptions="Center"
+                                           TextColor="{StaticResource TextDark}"/>
+                                    <Label Text="{Binding TotalROI, StringFormat='{}{0:N2} %'}"
+                                           FontSize="12" 
+                                           Grid.Column="3" 
+                                           HorizontalOptions="Center"
+                                           TextColor="{Binding TotalROI, 
+                                                       Converter={StaticResource RoiToColorConverter}}"/>
+                                </Grid>
+                            </Frame>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </dxco:DXCollectionView.ItemTemplate>
+            </dxco:DXCollectionView>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

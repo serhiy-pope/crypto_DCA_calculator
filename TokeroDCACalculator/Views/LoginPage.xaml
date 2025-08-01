@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TokeroDCACalculator.Views.LoginPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             Shell.PresentationMode="Animated">
+    
+    <ContentPage.Content>
+        <Grid ColumnSpacing="20" 
+              Padding="15" 
+              VerticalOptions="Center"
+              RowDefinitions="Auto,Auto,Auto"
+              ColumnDefinitions="*">
+            
+            <dxe:TextEdit Text="{Binding UserName}" 
+                          TextColor="{AppThemeBinding Light={StaticResource TextLight}, 
+                                                      Dark={StaticResource TextDark}}"
+                          LabelText="Login" 
+                          Margin="0" />
+
+            <dxe:PasswordEdit Text="{Binding Password}"
+                              TextColor="{AppThemeBinding Light={StaticResource TextLight}, 
+                                                          Dark={StaticResource TextDark}}" 
+                              LabelText="Password" 
+                              LabelFontSize="Small" 
+                              Margin="0" 
+                              Grid.Row="1" />
+            
+            <Button Text="Log In" 
+                    Command="{Binding LoginCommand}" 
+                    BackgroundColor="{AppThemeBinding 
+                                        Light={StaticResource TokeroPrimary}, 
+                                        Dark={StaticResource TokeroPrimaryDark}}"
+                    TextColor="{StaticResource TextDark}"
+                    Margin="0,10,0,0" 
+                    Grid.Row="2"/>
+            
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

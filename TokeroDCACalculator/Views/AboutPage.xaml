@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TokeroDCACalculator.Views.AboutPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dxco="clr-namespace:DevExpress.Maui.Controls;assembly=DevExpress.Maui.Controls"
+             xmlns:dxc="clr-namespace:DevExpress.Maui.Charts;assembly=DevExpress.Maui.Charts"
+             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             xmlns:dxsch="clr-namespace:DevExpress.Maui.Scheduler;assembly=DevExpress.Maui.Scheduler"
+             xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
+             xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
+             xmlns:dxdf="clr-namespace:DevExpress.Maui.DataForm;assembly=DevExpress.Maui.Editors"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             Shell.NavBarIsVisible="True"
+             Shell.TabBarIsVisible="True"
+             Shell.PresentationMode="Animated"
+             BackgroundColor="{StaticResource WhiteBrush}"
+             Title="{Binding Title}">
+    <Grid RowDefinitions="100,*,Auto">
+        <Grid>
+            <Image Source="background" Aspect="Fill"/>
+            <StackLayout VerticalOptions="Center" Margin="0,10,0,10">
+                <Label Text="TOKERO crypto exchange" FontSize="20" HorizontalOptions="Center"
+                    TextColor="{AppThemeBinding Dark={StaticResource TextDark},
+                                                Light={StaticResource TextLight}}"/>
+                <Label Text="from Globe Monnaie Srl" HorizontalOptions="Center"
+                    TextColor="{AppThemeBinding Dark={StaticResource TextDark},
+                                                Light={StaticResource TextLight}}"/>
+            </StackLayout>                
+        </Grid>
+        
+        <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto" Padding="25,25,25,15" RowSpacing="10">
+            <Label Grid.Row="0" Style="{StaticResource PrimaryText}" Text="Hello there, we are TOKERO."/>
+            <Label Grid.Row="1" Style="{StaticResource SecondaryText}" Text="Our vision is to help people build their best financial version." />
+            <Label Grid.Row="2" Style="{StaticResource SecondaryText}" Text="Our mission is to create the optimal ecosystem for accelerated crypto adoption, to bring crypto from DEXs to corner streets." Padding="0,0,0,7"/>
+        </Grid>
+        
+        <Button Grid.Row="2" Margin="25,20,25,20"
+                Text="Learn more"
+                Command="{Binding OpenWebCommand}"
+                TextColor="{StaticResource TextDark}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource TokeroPrimary}, 
+                                                  Dark={StaticResource TokeroPrimaryDark}}"/>
+    </Grid>
+</ContentPage>

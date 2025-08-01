@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="TokeroDCACalculator.Views.ResultsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TokeroDCACalculator.ViewModels"
+             xmlns:dxg="clr-namespace:DevExpress.Maui.DataGrid;assembly=DevExpress.Maui.DataGrid"
+             xmlns:dxco="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             Shell.NavBarIsVisible="True"
+             Shell.TabBarIsVisible="False"
+             Shell.PresentationMode="Animated"
+             Title="{Binding Title}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+            
+            <!-- Summary block -->
+            <Frame Padding="10" CornerRadius="8"                               
+                   BorderColor="{AppThemeBinding Light={StaticResource TokeroPrimaryDark}, 
+                                                 Dark={StaticResource TokeroPrimary}}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource TokeroPrimary}, 
+                                                     Dark={StaticResource TokeroPrimaryDark}}">
+                <VerticalStackLayout>
+                    <Label Text="Portfolio Summary:" 
+                           FontAttributes="Bold" 
+                           FontSize="18" 
+                           Margin="10,0,10,10"
+                           TextColor="{AppThemeBinding Light={StaticResource TextLight}, 
+                                                       Dark={StaticResource TextDark}}"/>
+                    <Grid ColumnDefinitions="*,*" 
+                          RowDefinitions="Auto, Auto, Auto, Auto, Auto" >
+                        
+                        <Label Text="Total Invested:" 
+                               TextColor="{StaticResource TextDark}"
+                               FontSize="16" 
+                               Grid.Column="0" 
+                               Grid.Row="0" />
+                        <Label Text="{Binding TotalInvested}" 
+                               TextColor="{StaticResource TextDark}"
+                               FontSize="16" 
+                               HorizontalOptions="End" 
+                               Grid.Column="1" 
+                               Grid.Row="0"/>
+
+                        <Label Text="Total Crypto Amount:" 
+                               TextColor="{StaticResource TextDark}"
+                               FontSize="16" 
+                               Grid.Column="0" 
+                               Grid.Row="1"/>
+                        <Label Text="{Binding TotalCrypto}"
+                               TextColor="{StaticResource TextDark}" 
+                               FontSize="16" 
+                               HorizontalOptions="End" 
+                               Grid.Column="1"
+                               Grid.Row="1" />
+
+                        <Label Text="Total Portfolio Value:"
+                               TextColor="{StaticResource TextDark}" 
+                               FontSize="16" 
+                               Grid.Column="0" 
+                               Grid.Row="2" />
+                        <Label Text="{Binding PortfolioTotalValue}" 
+                               TextColor="{StaticResource TextDark}"
+                               FontSize="16" 
+                               HorizontalOptions="End" 
+                               Grid.Column="1" 
+                               Grid.Row="2" />
+
+                        <Label Text="{Binding ProfitOrLossText, StringFormat='{0}:'}"
+                               TextColor="{StaticResource TextDark}" 
+                               FontSize="16" 
+                               Grid.Column="0" 
+                               Grid.Row="3" />
+                        <Label Text="{Binding ProfitOrLoss, StringFormat='{}{0:N2}'}" 
+                               TextColor="{Binding RoiColorForConverter, 
+                                                   Converter={StaticResource RoiToColorConverter}}"
+                               FontSize="16" 
+                               HorizontalOptions="End" 
+                               Grid.Column="1"
+                               Grid.Row="3" />
+
+                        <Label Text="Total ROI: " 
+                               TextColor="{StaticResource TextDark}" 
+                               FontSize="16" 
+                               Grid.Column="0" 
+                               Grid.Row="4" />
+                        <Label Text="{Binding TotalRoi}" 
+                               TextColor="{Binding RoiColorForConverter, 
+                                                   Converter={StaticResource RoiToColorConverter}}"
+                               FontSize="16" 
+                               HorizontalOptions="End" 
+                               Grid.Column="1"
+                               Grid.Row="4" />
+
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- DcaResults Monthly Header -->
+            <Frame Padding="5" CornerRadius="8" Margin="10,20,10,-10"
+                   BorderColor="{AppThemeBinding Light={StaticResource Gray300}, 
+                                                 Dark={StaticResource Gray600}}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
+                                                     Dark={StaticResource Gray800}}">
+                <Grid ColumnDefinitions="*,1.2*,*,*,0.7*" Padding="0,5,0,0">
+                    <Label Text="&#x0a;Date" FontAttributes="Bold" Grid.Column="0" Margin="10,0,0,0"/>
+                    <Label Text=" Invested &#x0a;amount (€)" FontAttributes="Bold" Grid.Column="1"/>
+                    <Label Text=" Crypto amount" FontAttributes="Bold" Grid.Column="2"/>
+                    <Label Text="&#x0a;Value (€)" FontAttributes="Bold" Grid.Column="3"/>
+                    <Label Text="&#x0a;ROI (%)" FontAttributes="Bold" Grid.Column="4"/>
+                </Grid>
+            </Frame>
+
+            <!-- DcaResults Monthly -->
+            <dxco:DXCollectionView ItemsSource="{Binding DcaResults}"
+                                   SelectionMode="None"
+                                   Margin="0"
+                                   HeightRequest="{Binding TotalMonthsCount, 
+                                                   Converter={StaticResource MonthsCountToHeightConverter}}">
+                <dxco:DXCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="12" 
+                               Padding="10" 
+                               Margin="0,5,0,5" 
+                               HasShadow="True" 
+                               BorderColor="{AppThemeBinding Light={StaticResource TokeroPrimaryDark}, 
+                                                             Dark={StaticResource TokeroPrimary}}"
+                               BackgroundColor="{AppThemeBinding Light={StaticResource TokeroPrimary}, 
+                                                                 Dark={StaticResource TokeroPrimaryDark}}">
+                            <Grid ColumnDefinitions="1.3*,1.1*,1.1*,*,0.8*">
+                                <Label Text="{Binding Date, StringFormat='{0:yyyy.MM.dd}'}" 
+                                       FontSize="12" 
+                                       Grid.Column="0" 
+                                       HorizontalOptions="Start"
+                                       TextColor="{StaticResource TextDark}"/>
+                                <Label Text="{Binding MonthlyInvestedAmountEUR, StringFormat='{}{0:N2}'}" 
+                                       FontSize="12" 
+                                       Grid.Column="1" 
+                                       HorizontalOptions="Start"
+                                       TextColor="{StaticResource TextDark}"/>
+                                <Label Text="{Binding CryptoAmount, StringFormat='{}{0:N6}'}" 
+                                       FontSize="12" 
+                                       Grid.Column="2" 
+                                       HorizontalOptions="Start"
+                                       TextColor="{StaticResource TextDark}"/>
+                                <Label Text="{Binding TotalPortfolioValue, StringFormat='{}{0:N2}'}" 
+                                       FontSize="12" 
+                                       Grid.Column="3" 
+                                       HorizontalOptions="Start"
+                                       TextColor="{StaticResource TextDark}"/>
+                                <Label Text="{Binding ROI, StringFormat='{}{0:N2} %'}"
+                                       FontSize="12" 
+                                       Grid.Column="4" 
+                                       HorizontalOptions="Start"
+                                       TextColor="{Binding ROI, 
+                                                   Converter={StaticResource RoiToColorConverter}}"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </dxco:DXCollectionView.ItemTemplate>
+            </dxco:DXCollectionView>
+
+            <!-- The data can also be shown in the dxg:DataGridView instead of dxco:DXCollectionView-->
+            <!-- Needs styling for consistency -->            
+            <!--<dxg:DataGridView x:Name="grid" ItemsSource="{Binding DcaResults}">
+                <dxg:DataGridView.Columns>
+                    <dxg:TextColumn FieldName="Date" Caption="Date" />
+                    <dxg:TextColumn FieldName="MonthlyInvestedAmountEUR" Caption="MonthlyInvestedAmountEUR" />
+                    <dxg:TextColumn FieldName="CryptoAmount" Caption="CryptoAmount" />
+                    <dxg:TextColumn FieldName="TotalPortfolioValue" Caption="TotalPortfolioValue" />
+                    <dxg:TextColumn FieldName="ROI" Caption="ROI" />
+                    <dxg:DateColumn FieldName="StartTime" Caption="Time" DisplayFormat="h:mm tt" />
+                </dxg:DataGridView.Columns>
+            </dxg:DataGridView>-->
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

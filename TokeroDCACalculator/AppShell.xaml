@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell x:Class="TokeroDCACalculator.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:fontAwesome="clr-namespace:FontAwesome"
+       xmlns:views="clr-namespace:TokeroDCACalculator.Views"
+       xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+       ios:Page.UseSafeArea="true"
+       Shell.FlyoutBehavior="Flyout"
+       Shell.FlyoutWidth="250">
+
+    <Shell.FlyoutHeader>
+        <StackLayout Orientation="Horizontal" 
+                     HorizontalOptions="End" 
+                     Margin="20,5">
+            <Image MaximumHeightRequest="25"
+                   Source="{AppThemeBinding Light=tokerologo.svg,
+                                            Dark=tokerologolight.svg}"
+                   Margin="0,0,5,0">
+            </Image>
+
+            <Label Text="TOKERO"
+                   FontAttributes="Bold"
+                   FontFamily="univia-pro-regular"
+                   FontSize="Large"
+                   TextColor="{AppThemeBinding Dark={StaticResource Gray100}, 
+                                                Light={StaticResource Gray600}}"/>
+
+        </StackLayout>
+    </Shell.FlyoutHeader>
+
+    <ShellItem FlyoutItemIsVisible="False" Route="LoginPage">
+        <ShellContent ContentTemplate="{DataTemplate views:LoginPage}" />
+    </ShellItem>
+    
+    <TabBar>
+        <Tab Title ="Home Page" >
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="FAS"
+                    Glyph="{x:Static fontAwesome:FontAwesomeIcons.HouseChimney}"
+                    Color="{AppThemeBinding Dark=White, Light=Black}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:HomePage}" Route="TokeroDCACalculator.Views.HomePage"/>
+        </Tab>
+        <Tab Title="Charts" >
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="FAS"
+                    Glyph="{x:Static fontAwesome:FontAwesomeIcons.ChartSimple}"
+                    Color="{AppThemeBinding Dark=White, Light=Black}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:ChartsPage}" />
+        </Tab>
+        <Tab Title="About" >
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="FAS"
+                    Glyph="{x:Static fontAwesome:FontAwesomeIcons.CircleInfo}"
+                    Color="{AppThemeBinding Dark=White, Light=Black}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:AboutPage}" />
+        </Tab>
+    </TabBar>
+    
+    <FlyoutItem Title="Home Page" >
+        <FlyoutItem.Icon>
+            <FontImageSource
+                FontFamily="FAS"
+                Glyph="{x:Static fontAwesome:FontAwesomeIcons.HouseChimney}"
+                Color="{AppThemeBinding Dark=White, Light=Black}" />
+        </FlyoutItem.Icon>
+        <Tab Title ="Home Page" >
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="FAS"
+                    Glyph="{x:Static fontAwesome:FontAwesomeIcons.HouseChimney}"
+                    Color="{AppThemeBinding Dark=White, Light=Black}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:HomePage}" Route="HomePage" />
+        </Tab>
+        <Tab Title="Charts" >
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="FAS"
+                    Glyph="{x:Static fontAwesome:FontAwesomeIcons.ChartSimple}"
+                    Color="{AppThemeBinding Dark=White, Light=Black}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:ChartsPage}" />
+        </Tab>
+        <Tab Title="About" >
+            <Tab.Icon>
+                <FontImageSource
+                    FontFamily="FAS"
+                    Glyph="{x:Static fontAwesome:FontAwesomeIcons.CircleInfo}"
+                    Color="{AppThemeBinding Dark=White, Light=Black}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:AboutPage}" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="Charts" >
+        <FlyoutItem.Icon>
+            <FontImageSource
+                FontFamily="FAS"
+                Glyph="{x:Static fontAwesome:FontAwesomeIcons.ChartSimple}"
+                Color="{AppThemeBinding Dark=White, Light=Black}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate views:ChartsPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="About" >
+        <FlyoutItem.Icon>
+            <FontImageSource
+                FontFamily="FAS"
+                Glyph="{x:Static fontAwesome:FontAwesomeIcons.CircleInfo}"
+                Color="{AppThemeBinding Dark=White, Light=Black}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate views:AboutPage}" />
+    </FlyoutItem>
+
+</Shell>
