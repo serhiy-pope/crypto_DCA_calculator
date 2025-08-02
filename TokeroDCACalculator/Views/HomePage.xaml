@@ -23,16 +23,22 @@
                            SelectionChangedCommand="{Binding CryptoSelectedCommand}"
                            LabelText="Select Cryptocurrency:"
                            LabelFontSize="14"
+                           TextColor="{AppThemeBinding Dark={StaticResource TextDark},
+                                                        Light={StaticResource TextLight}}"
                            LabelColor="{AppThemeBinding Dark={StaticResource TextDark},
                                                         Light={StaticResource TextLight}}"
                            FocusedLabelColor="{AppThemeBinding Dark={StaticResource TextDark},
                                                         Light={StaticResource TextLight}}"
                            BackgroundColor="{AppThemeBinding Dark={StaticResource TokeroPrimaryDark},
                                                              Light={StaticResource Secondary}}"
+                           DropDownSelectedItemBackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                                                                 Light={StaticResource Gray300}}"
+                           DropDownSelectedItemTextColor="{AppThemeBinding Dark={StaticResource Gray300},
+                                                                           Light={StaticResource Gray600}}"
                            BorderColor="{AppThemeBinding Dark={StaticResource TokeroPrimary},
                                                              Light={StaticResource TokeroPrimaryDark}}"
-                           FocusedBorderColor="{AppThemeBinding Dark={StaticResource TokeroPrimary},
-                                                             Light={StaticResource TokeroPrimary}}"
+                           FocusedBorderColor="{StaticResource TokeroPrimary}" 
+                           DropDownIconColor="{StaticResource TokeroPrimary}" 
                            HasError="{Binding NoCryptoSelected, Mode=TwoWay}"
                            ErrorText="This field is required*"
                            ClearIconVisibility="Auto"

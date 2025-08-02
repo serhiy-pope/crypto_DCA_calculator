@@ -19,8 +19,22 @@
         <dxe:ComboBoxEdit ItemsSource="{Binding AvailableCoins, Mode=TwoWay}" 
                           SelectedItem="{Binding SelectedCoin}"
                           SelectionChangedCommand="{Binding SetSelectedCoinAsyncCommand}"
-                          DropDownSelectedItemBackgroundColor="Gray" 
+                          TextColor="{AppThemeBinding Dark={StaticResource TextDark},
+                                                      Light={StaticResource TextLight}}"
+                          LabelColor="{AppThemeBinding Dark={StaticResource TextDark},
+                                                       Light={StaticResource TextLight}}"
+                          FocusedLabelColor="{AppThemeBinding Dark={StaticResource TextDark},
+                                                              Light={StaticResource TextLight}}"
+                          BackgroundColor="{AppThemeBinding Dark={StaticResource TokeroPrimaryDark},
+                                                            Light={StaticResource Secondary}}"
+                          DropDownSelectedItemBackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                                                                Light={StaticResource Gray300}}"
+                          DropDownSelectedItemTextColor="{AppThemeBinding Dark={StaticResource Gray300},
+                                                                          Light={StaticResource Gray600}}"
+                          BorderColor="{AppThemeBinding Dark={StaticResource TokeroPrimary},
+                                                        Light={StaticResource TokeroPrimaryDark}}"
                           FocusedBorderColor="{StaticResource TokeroPrimary}" 
+                          DropDownIconColor="{StaticResource TokeroPrimary}" 
                           FocusedBorderThickness="1"
                           HeightRequest="45"
                           BoxPadding="10"

@@ -21,11 +21,9 @@
             <Image Source="background" Aspect="Fill"/>
             <StackLayout VerticalOptions="Center" Margin="0,10,0,10">
                 <Label Text="TOKERO crypto exchange" FontSize="20" HorizontalOptions="Center"
-                    TextColor="{AppThemeBinding Dark={StaticResource TextDark},
-                                                Light={StaticResource TextLight}}"/>
+                       TextColor="{StaticResource TextDark}"/>
                 <Label Text="from Globe Monnaie Srl" HorizontalOptions="Center"
-                    TextColor="{AppThemeBinding Dark={StaticResource TextDark},
-                                                Light={StaticResource TextLight}}"/>
+                       TextColor="{StaticResource TextDark}"/>
             </StackLayout>                
         </Grid>
         

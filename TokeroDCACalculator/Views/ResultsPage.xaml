@@ -94,8 +94,15 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- DcaResults Monthly Header -->
-            <Frame Padding="5" CornerRadius="8" Margin="10,20,10,-10"
+            <!-- Monthly Portfolio Progress Header -->
+            <Label Text="Total Portfolio Progress (monthly):" 
+                   FontAttributes="Bold" 
+                   FontSize="18" 
+                   Margin="-25,15,15,0"
+                   HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light={StaticResource TextLight}, 
+                                               Dark={StaticResource TextDark}}"/>
+            <Frame Padding="5" CornerRadius="8" Margin="10,0,10,-5"
                    BorderColor="{AppThemeBinding Light={StaticResource Gray300}, 
                                                  Dark={StaticResource Gray600}}"
                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, 
@@ -109,7 +116,7 @@
                 </Grid>
             </Frame>
 
-            <!-- DcaResults Monthly -->
+            <!-- DcaResults Monthly Header -->
             <dxco:DXCollectionView ItemsSource="{Binding DcaResults}"
                                    SelectionMode="None"
                                    Margin="0"
