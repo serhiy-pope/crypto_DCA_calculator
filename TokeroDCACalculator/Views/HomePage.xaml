@@ -45,7 +45,8 @@
                            ClearIconVisibility="Auto"
                            BottomTextFontSize="12"
                            Margin="0,0,0,10"
-                           BoxPadding="10,15,10,25">
+                           BoxPadding="10,15,10,25"
+                           IsVisible="{Binding IsAndroid}">
                 <dxe:TokenEdit.TokenAppearance>
                     <dxe:TokenAppearance BorderColor="{AppThemeBinding Dark={StaticResource Gray300},
                                                                        Light={StaticResource Gray500}}"

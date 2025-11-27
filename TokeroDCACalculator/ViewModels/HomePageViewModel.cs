@@ -36,7 +36,7 @@ namespace TokeroDCACalculator.ViewModels
             CalculateDcaAsyncCommand = new AsyncRelayCommand(CalculateDcaAsync, ValidateAction);
             PropertyChanged += (_, __) => CalculateDcaAsyncCommand.NotifyCanExecuteChanged();
 
-            CryptoSelectedCommand = new Command(CryptoSelected);
+            CryptoSelectedCommand = new RelayCommand<object>(CryptoSelected);
 
 #if ANDROID
             IsAndroid = true;
@@ -116,7 +116,7 @@ namespace TokeroDCACalculator.ViewModels
         #region - Commands
 
         public IAsyncRelayCommand CalculateDcaAsyncCommand { get; }
-        public Command CryptoSelectedCommand { get; }
+        public IRelayCommand CryptoSelectedCommand { get; }
 
         #endregion
 
@@ -229,12 +229,37 @@ namespace TokeroDCACalculator.ViewModels
             }
         }
 
-        private void CryptoSelected()
+        private void CryptoSelected(object parameter)
         {
-            if (SelectedCryptos.Count == 0)
-                NoCryptoSelected = true;
-            else
-                NoCryptoSelected = false;
+            try
+            {
+#if IOS
+                SelectedCryptos.Clear();
+
+                if (parameter is IEnumerable<object> items)
+                {
+                    foreach (var item in items)
+                    {
+                        if (item is CryptoOption crypto)
+                            SelectedCryptos.Add(crypto);
+                    }
+                }
+#endif
+
+                if (SelectedCryptos.Count == 0)
+                    NoCryptoSelected = true;
+                else
+                    NoCryptoSelected = false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[OnCryptoSelected] Error: {ex.Message}\n{ex.StackTrace}");
+            }
+
+            //if (SelectedCryptos.Count == 0)
+            //    NoCryptoSelected = true;
+            //else
+            //    NoCryptoSelected = false;
         }
 
         private bool ValidateAction()
@@ -242,7 +267,7 @@ namespace TokeroDCACalculator.ViewModels
             return !NoCryptoSelected;
         }
 
-        #endregion
+#endregion
 
     }
 }
