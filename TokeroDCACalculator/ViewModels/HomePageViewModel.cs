@@ -15,6 +15,9 @@ namespace TokeroDCACalculator.ViewModels
         private ObservableCollection<CryptoOption> _selectedCryptos;
         private bool _noCryptoSelected = true;
 
+        private bool _isAndroid = true;
+        private bool _isIos = true;
+
         #endregion
 
         public HomePageViewModel()
@@ -34,6 +37,17 @@ namespace TokeroDCACalculator.ViewModels
             PropertyChanged += (_, __) => CalculateDcaAsyncCommand.NotifyCanExecuteChanged();
 
             CryptoSelectedCommand = new Command(CryptoSelected);
+
+#if ANDROID
+            IsAndroid = true;
+            IsIos = false;
+#elif IOS
+            IsAndroid = false;
+            IsIos = true;
+#else
+            IsAndroid = true;
+            IsIos = false;
+#endif
         }
 
         #region - Public Properties
@@ -73,6 +87,26 @@ namespace TokeroDCACalculator.ViewModels
             set
             {
                 _noCryptoSelected = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsAndroid
+        {
+            get => _isAndroid;
+            set
+            {
+                _isAndroid = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsIos
+        {
+            get => _isIos;
+            set
+            {
+                _isIos = value;
                 OnPropertyChanged();
             }
         }

@@ -8,6 +8,7 @@
              xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors"
              xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:controls="clr-namespace:Microsoft.Maui.Controls.Compatibility;assembly=Microsoft.Maui.Controls.Compatibility"
              ios:Page.UseSafeArea="true"
              Shell.NavBarIsVisible="True"
              Shell.TabBarIsVisible="True"
@@ -51,6 +52,48 @@
                 </dxe:TokenEdit.TokenAppearance>
             </dxe:TokenEdit>
 
+            <Label Text="Select Cryptocurrency:"
+                   IsVisible="{Binding IsIos}"/>
+            <CollectionView x:Name="iOScryptoSelect"  
+                            SelectionMode="Multiple" 
+                            SelectionChangedCommand="{Binding CryptoSelectedCommand, Mode=TwoWay}" 
+                            SelectionChangedCommandParameter="{Binding SelectedItems, Source={x:Reference iOScryptoSelect}}"  
+                            ItemsSource="{Binding CryptoOptions, Mode=TwoWay}"
+                            SelectedItems="{Binding SelectedCryptos, Mode=TwoWay}"
+                            IsVisible="{Binding IsIos}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:CryptoOption">
+                        <Border Margin="2">
+                            <Label Text="{Binding Name}" 
+                                   TextColor="{AppThemeBinding Dark={StaticResource TextDark},
+                                                               Light={StaticResource TextLight}}" 
+                                   Margin="5"/>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" >
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource Gray600},
+                                                                                                           Light={StaticResource Gray100}}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource TokeroPrimaryDark},
+                                                                                                           Light={StaticResource TokeroPrimary}}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5,5,5,5" />
+                            </Border.StrokeShape>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
             <Label Text="Select Start Date:" FontAttributes="Bold"/>
             <DatePicker Date="{Binding StartDate}" MaximumDate="{x:Static sys:DateTime.Today}" 
                         TextColor="{AppThemeBinding Dark={StaticResource TextDark},
@@ -58,8 +101,7 @@
 
             <Label Text="Select End Date:" FontAttributes="Bold"/>
             <DatePicker Date="{Binding EndDate}" 
-                        MaximumDate="{x:Static sys:DateTime.Today}"
-                        
+                        MaximumDate="{x:Static sys:DateTime.Today}"                        
                         TextColor="{AppThemeBinding Dark={StaticResource TextDark},
                                                     Light={StaticResource TextLight}}" />
 
@@ -84,7 +126,6 @@
 
             <Button Text="Calculate"
                     Command="{Binding CalculateDcaAsyncCommand}"
-                    TextColor="{StaticResource TextDark}"
                     BackgroundColor="{AppThemeBinding Light={StaticResource TokeroPrimary}, 
                                                       Dark={StaticResource TokeroPrimaryDark}}"
                     CornerRadius="8"

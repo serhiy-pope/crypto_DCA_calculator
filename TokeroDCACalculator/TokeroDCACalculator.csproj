@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
+		<TargetFrameworks>net9.0-android;net9.0-ios</TargetFrameworks>
     	<OutputType>Exe</OutputType>
 		<UseMaui>true</UseMaui>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -12,7 +12,7 @@
 		<ApplicationTitle>TokeroDCACalculator</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.TokeroDCACalculator</ApplicationId>
+		<ApplicationId>com.serhiypope.TokeroDCACalculator</ApplicationId>
 		<ApplicationIdGuid>1B4DCD25-5D2B-4407-A472-CE6DCB2779F0</ApplicationIdGuid>
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -63,7 +63,6 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
 
-
 	<ItemGroup>
 		<PackageReference Include="DevExpress.Maui.Controls" Version="23.2.5" />
 		<PackageReference Include="DevExpress.Maui.Core" Version="23.2.5" />
@@ -77,13 +76,11 @@
 		<TrimmableAssembly Include="DevExpress.Data.v23.2" />
 	</ItemGroup>
 
-
 	<ItemGroup>
 	  <Compile Update="Views\HomePage.xaml.cs">
 	    <DependentUpon>HomePage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
-
 
 	<ItemGroup>
 	  <MauiXaml Update="AppShell.xaml">
@@ -96,4 +93,10 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
+    	<CodesignKey>Apple Development</CodesignKey>
+    	<CodesignProvision>Automatic</CodesignProvision>
+	</PropertyGroup>
+	
 </Project>
